@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<br>
+
+<h3> Contact Form </h3>
+
+
+</center>
+<form method="post" action="{% url 'contact' %}">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="name" />
+    <br><br>
+    <input type="text" name="email" placeholder="email" />
+    <br><br>
+    <input type="text" name="subject" placeholder="subject" />
+    <br><br>
+    <textarea name="message" placeholder="message"></textarea>
+    <input type="submit" value="send" />
+</form>
+</center>
+
+<br>
+
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2033.1932258697852!2d17.97253321640496!3d59.36311398167064!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465f9de77bbc7495%3A0xeacaaa2d0fe9f247!2sR%C3%A5stensgatan%2010%2C%20172%2070%20Sundbyberg!5e0!3m2!1ssv!2sse!4v1668345008249!5m2!1ssv!2sse" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
+{% endblock %}
