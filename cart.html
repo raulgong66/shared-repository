@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+<script src="https://cdn.jsdelivr.net/nmp/sweetalert2@10"></script>
+<div class="container">
+   <div class="border rounded p-4 m-4">
+        <p class="display-4 pl-4 ml-4 btn btn-warning rounded-pill">Your Cart</p>
+        <hr>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sno.</th>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for product in products %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><img style="height: 80px;" class="rounded-circle" src="{{product.image.url}}" alt=""></td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price|currency}}</td>
+                    <td>{{product|cart_quantity:request.session.cart}}</td>
+                    <td>{{product|price_total:request.session.cart|currency}}</td>
+                </tr>
+
+                {% endfor %}
+               
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <th colspan="4"></th>
+                    <th class="" colspan="">Total</th>
+                    <th>{{products|total_cart_price:request.session.cart|currency}}</th>
+                </tr>
+            </tfoot>
+        </table>
+        <hr>
+         <div class="m-3 p-3">
+            <a href="#" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-success border rounded  col-lg-3 float-right">Check out</a>
+         </div>
+
+   </div>
+</div>
+
+<center>
+  <div id="input-view" style="display: none;">
+    <h3 style="color:green;">Swish payment: last step before proccessing your order.</h3>
+    <br><br>
+    <table>
+      <tr>
+        <td>H1</td>
+        <td><input placeholder="Cust. swish nr" id="title"/></td>
+      </tr>
+      <tr>
+        <td>📞</td>
+        <td><input placeholder="0704264615" id="payee"/></td>
+        <td><input type="checkbox" id="payee-is-locked" checked></td>
+      </tr>
+      <tr>
+        <td>💰</td>
+        <td><input placeholder="1000000" id="amount" type="number"/></td>
+        <td><input type="checkbox" id="amount-is-locked" checked></td>
+      </tr>
+      <tr>
+        <td>💬</td>
+        <td><input placeholder="Very nice shopp. Thanks" id="message" maxlength="50"/></td>
+        <td><input type="checkbox" id="message-is-locked" checked></td>
+      </tr>
+    </table>
+    <br>
+    <button onclick="handleInput()" style="color:green"> Pay Now </button>
+
+<br><br><br>
+    <p class="smallprint"><a style="color:green" href="https://github.com/raulgong66/shared-repository/tree/Raul">https://github.com/raulgong66/shared-repository/tree/Raul</a></p>
+  </div>
+</center>
+  <div id="output-view" style="display: none;">
+    <h1 id="title-out"></h1>
+    <p>
+      <span id="amount-out"></span> kr ➔ <span id="payee-out"></span>
+    </p>
+    <p id="message-out"></p>
+    <hr>
+    <a id="swish-link">
+      <div>
+        <form>
+        <button style="color:green" formaction="store">Open Swish</button>
+        </form>
+      </div>
+      <div id="qr-code"></div>
+    </a>
+    <hr>
+    <span class="smallprint" style="color:green">Create your own links: <a style="color:green" id="create-link"></a></span>
+  </div>
+
+
+<!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="color:green">
+              Swish Payment - Check Out Form
+          </h5>
+          <hr>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="m-2 p-3">
+            <form action="/check-out" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label style="color:green" for="">Swish from #</label>
+                    <input type="text" name="phone" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                </div>
+                <div class="form-group">
+                    <label style="color:green" for="">Swish to #</label>
+                    <input type="text" name="phone-to" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                </div>
+                <div class="form-group">
+                    <label style="color:green" for="">Amount in kr</label>
+                    <input type="text" name="amount" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                </div>
+                <div class="form-group">
+                  <label style="color:green" for="">Address</label>
+                  <input type="text" name="address" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                </div>
+                <input id="finish" type="submit" class="btn float-right btn-outline-success col-lg-6" value="Check out">
+                <script>
+                document.getElementById('finish').addEventListener('click', function() {
+                alert('Thank you!. Your order will proccess asap');
+                 });
+
+                </script>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+<!-- inserting swish payment -->
+
+
+{% endblock %}
+
+
+
+
