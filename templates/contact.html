@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<br>
+
+
+
+
+<center>
+    <h3> Contact Form </h3>
+    <form method="post" action="{% url 'contact' %}">
+    {% csrf_token %}
+        <input type="text" name="name" placeholder="name" />
+        <br><br>
+        <input type="text" name="email" placeholder="email" />
+        <br><br>
+        <input type="text" name="subject" placeholder="subject" />
+        <br><br>
+        <textarea name="message" placeholder="message"></textarea>
+        <br>
+        <input type="submit" value="send" />
+    </form>
+
+
+    <br>
+
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2035.7159989330532!2d17.987095016403735!3d59.32099918165605!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465f763a11a12f49%3A0xa3111a1c463e59da!2sE-Com%20Stockholm%20AB!5e0!3m2!1sen!2sse!4v1668676217613!5m2!1sen!2sse" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</center>
+
+{% endblock %}
